@@ -1,0 +1,26 @@
+{% extends 'calculator/base.html' %}
+
+
+
+{% block content %}
+<h3 class="main_header" align="center">В таблице ниже представлены основные характеристики содержащиеся в 100 граммах указанного продукта</h3>
+<table class="main_table" align="center">
+    <tr class="headers">
+        <td>Название</td>
+        <td>Калорийность</td>
+        <td>Белки</td>
+        <td>Жиры</td>
+        <td>Углеводы</td>
+    </tr>
+{% for item in products %}
+    <tr>
+        <td>{{item.title}}</td>
+        <td>{{item.calories}} кКал</td>
+        <td>{{item.protein}} г</td>
+        <td>{{item.fats}} г</td>
+        <td>{{item.carbs}} г</td>
+    </tr>
+{% endfor %}
+</table>
+{% endblock content %}
+
