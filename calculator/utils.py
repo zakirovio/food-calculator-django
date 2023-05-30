@@ -1,24 +1,29 @@
 from calculator.models import *
 
-
 categories_list = Categories.objects.all()
 menu = [
-    {'title': 'Главная | Калькулятор', 'select_id': 1, 'path_name': 'home'},
-    {'title': 'Категории продуктов', 'select_id': 2, 'path_name': 'home'},
-    {'title': 'Статьи', 'select_id': 3, 'path_name': 'articles'},
-    {'title': 'О сайте', 'select_id': 4, 'path_name': 'about'}
+    {'title': 'Категории продуктов | Таблицы', 'select_id': 1, 'path_name': 'home'},
+    # Other points
 ]
 
 
-def count_food_values(*args, coeff) -> tuple:
-    calories, protein, fat, carbs = args
+def count_cart_data(data: dict) -> dict:
+    calories = 0
+    protein = 0
+    fats = 0
+    carbs = 0
 
-    calories = coeff * calories
-    protein = coeff * protein
-    fat = coeff * fat
-    carbs = coeff * carbs
+    for key, value in data.items():
+        product_id = value['id']
+        count = value['count']
+        factor = count / 100
+        product = Products.objects.get(id=product_id)
+        calories += (product.calories * factor)
+        protein += (product.protein * factor)
+        fats += (product.fats * factor)
+        carbs += (product.carbs * factor)
 
-    return calories, protein, fat, carbs
+    return {'calories': calories, 'protein': protein, 'fats': fats, 'carbs': carbs}
 
 
 class CommonData:

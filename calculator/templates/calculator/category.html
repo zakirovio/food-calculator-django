@@ -1,26 +1,27 @@
 {% extends 'calculator/base.html' %}
 
-
-
-{% block content %}
-<h3 class="main_header" align="center">В таблице ниже представлены основные характеристики содержащиеся в 100 граммах указанного продукта</h3>
-<table class="main_table" align="center">
-    <tr class="headers">
-        <td>Название</td>
-        <td>Калорийность</td>
-        <td>Белки</td>
-        <td>Жиры</td>
-        <td>Углеводы</td>
+{% block calculator %}
+<div class="category container">
+    <p class="lead">В таблице ниже представлена калорийность и пищевая ценность в 100 граммах продукта: <strong>{{title}}</strong></p>
+<table class="table table-dark container">
+    <tr class="table table-secondary lead">
+        <td class="table table-secondary">Название</td>
+        <td class="table table-secondary">Калорийность</td>
+        <td class="table table-secondary">Белки</td>
+        <td class="table table-secondary">Жиры</td>
+        <td class="table table-secondary">Углеводы</td>
     </tr>
 {% for item in products %}
-    <tr>
-        <td>{{item.title}}</td>
-        <td>{{item.calories}} кКал</td>
-        <td>{{item.protein}} г</td>
-        <td>{{item.fats}} г</td>
-        <td>{{item.carbs}} г</td>
+    <tr class="table table-light lead">
+        <td class="table table-light">{{item.title}}</td>
+        <td class="table table-light">{{item.calories}} кКал.</td>
+        <td class="table table-light">{{item.protein}} гр.</td>
+        <td class="table table-light">{{item.fats}} гр.</td>
+        <td class="table table-light">{{item.carbs}} гр.</td>
     </tr>
 {% endfor %}
 </table>
-{% endblock content %}
+
+</div>
+{% endblock calculator %}
 

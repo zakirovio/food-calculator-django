@@ -1,25 +1,94 @@
 {% extends 'calculator/base.html' %}
+{% block about %}
+<div class="container">
+    <h1 class="display-6">Калькулятор пищевой ценности продуктов питания</h1>
+    <p class="lead">
+        Добро пожаловать на SimpleFoodCalculator. При помощи этого калькулятора можно подсчитать количество калорий выбранного рациона.
+        База данных содержит более 7 тысяч продуктов и готовых блюд. Также можно отдельно изучить таблицы по категориям.
+    </p>
+</div>
+{% endblock about %}
 
-{% block content %}
-<div class="organizer">
-    {% if organizer %}
-
+{% block calculator %}
+<div class="organizer container">
+    <p class="lead">Калькулятор</p>
+    {% if cart_items %}
+        <table class="table table-secondary table-sm container">
+        <tr class="table table-secondary">
+            <td class="table table-secondary">Название</td>
+            <td class="table table-secondary">Количество</td>
+        </tr>
+        {% for key, value in cart_items.items %}
+            <tr class="table table-light lead">
+                <td class="table table-light">{{value.title}}</td>
+                <td class="table table-light">{{value.count}} гр.</td>
+            </tr>
+        {% endfor %}
+        </table>
     {% endif %}
 </div>
-<div class="calculator"><form action="{% url 'home' %}" method="post">
+<div class="calculator container">
+    <form action="{% url 'home' %}" method="post">
     {% csrf_token %}
-    {% for item in form %}
-        <p></p><label>{{item.label}}: </label>{{item}}</p>
-    {% endfor %}
-    <button type="submit">Посчитать</button>
-</form></div>
-{% if food_values %}
-    <p class="total-values">
-    В выбранном количестве продукта содержится:
-        <p>Калории: {{food_values.0}}</p>
-        <p>Белки: {{food_values.1}}</p>
-    <p>Жиры: {{food_values.2}}</p>
-    <p>Углеводы: {{food_values.3}}</p>
-    </p>
+        <div id="f">
+            <div class="form-floating mb-2">
+                <div class="form-row col-4"><input class="form-control" type="text" id="opt" placeholder="Начните вводить название"></div>
+            </div>
+        </div>
+            <div class="form-floating mb-3">
+                <div class="form-row col-4">{{form.products}}</div>
+            </div>
+        <div class="form-floating mb-3">
+            <div class="form-row col-4">{{form.count}}</div>
+        </div>
+        <button class="btn btn-primary" type="submit">Добавить</button>
+    </form>
+    <!--Hidden result field form and button-->
+    <form action="{% url 'home' %}" method="post">
+        {% csrf_token %}
+        {% if not values %}
+        <button class="btn btn-primary" type="submit">Рассчитать</button>
+        {% endif %}
+        <div class="form-floating mb-2">
+                <div class="form-row col-3">{{result.result}}</div>
+        </div>
+    </form>
+</div>
+<!--Search by option fields script-->
+<script>
+    var f = document.getElementById('f'),
+        s = document.getElementById('id_products'), o = s.querySelectorAll("option"),
+        inp = document.getElementById('opt'),
+        reg;
+    inp.oninput = function() {
+        reg = new RegExp(this.value, "ig");
+        s.options.length = 0;
+        for (var i=0; i<o.length; i++)  {
+           reg.test(o[i].text) && s.options.add(o[i]);
+           reg.lastIndex = 0;
+        }
+    };
+</script>
+<!--Result table section-->
+{% if values %}
+    <div class="container">
+         <p class="lead">
+        Пищевая ценность выбранных продуктов составляет:</p>
+        <table class="table table-secondary table-sm container">
+        <tr class="table table-secondary lead">
+            <td class="table table-secondary ">Калории</td>
+            <td class="table table-secondary ">Белки</td>
+            <td class="table table-secondary ">Жиры</td>
+            <td class="table table-secondary ">Углеводы</td>
+        </tr>
+        <tr class="table table-light lead">
+            <td class="table table-light">{{values.calories}} кКал.</td>
+            <td class="table table-light">{{values.protein}} гр.</td>
+            <td class="table table-light">{{values.fats}} гр.</td>
+            <td class="table table-light">{{values.carbs}} гр.</td>
+        </tr>
+        </table>
+    </div>
+
 {% endif %}
-{% endblock content %}
+{% endblock calculator %}
