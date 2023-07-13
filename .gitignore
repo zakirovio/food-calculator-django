@@ -182,4 +182,9 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 
 # idea folder, uncomment if you don't need it
-idea
+.idea/**/*.xml
+.idea/
+calculator/migrations/
+calculator/**/*.pyc
+food_calculator/**/*pyc
+
