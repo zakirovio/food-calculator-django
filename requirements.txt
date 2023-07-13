@@ -4,3 +4,4 @@ python-decouple
 pandas
 openpyxl
 mysqlclient
+sqlalchemy==2.0.18
