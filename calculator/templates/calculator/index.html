@@ -1,5 +1,7 @@
 {% extends 'calculator/base.html' %}
 {% block about %}
+{% load static %}
+
 <div class="container">
     <h1 class="display-6">Калькулятор пищевой ценности продуктов питания</h1>
     <p class="lead">
@@ -30,14 +32,25 @@
 <div class="calculator container">
     <form action="{% url 'home' %}" method="post">
     {% csrf_token %}
-        <div id="f">
+        <!-- Панель выбора категории-->
+        <div class="form-floating mb-3">
+            <div class="form-row col-4">{{form.categories}}</div>
+        </div>
+        <!-- Панель поиска продукта-->
+        <div id="search-panel">
             <div class="form-floating mb-2">
                 <div class="form-row col-4"><input class="form-control" type="text" id="opt" placeholder="Начните вводить название"></div>
             </div>
         </div>
-            <div class="form-floating mb-3">
-                <div class="form-row col-4">{{form.products}}</div>
+
+        <div class="form-floating mb-3">
+            <div class="form-row col-4">
+                <select name="products" id="product-select" class="form-select">
+
+                </select>
             </div>
+        </div>
+
         <div class="form-floating mb-3">
             <div class="form-row col-4">{{form.count}}</div>
         </div>
@@ -55,20 +68,8 @@
     </form>
 </div>
 <!--Search by option fields script-->
-<script>
-    var f = document.getElementById('f'),
-        s = document.getElementById('id_products'), o = s.querySelectorAll("option"),
-        inp = document.getElementById('opt'),
-        reg;
-    inp.oninput = function() {
-        reg = new RegExp(this.value, "ig");
-        s.options.length = 0;
-        for (var i=0; i<o.length; i++)  {
-           reg.test(o[i].text) && s.options.add(o[i]);
-           reg.lastIndex = 0;
-        }
-    };
-</script>
+<script src="{% static 'calculator/js/search_panel.js' %}"></script>
+<script src="{% static 'calculator/js/get_category.js' %}"></script>
 <!--Result table section-->
 {% if values %}
     <div class="container">

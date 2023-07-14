@@ -1,7 +1,9 @@
-django==3.2.18
+django==3.2.19
 pillow
 python-decouple
 pandas
 openpyxl
 mysqlclient
 sqlalchemy==2.0.18
+djangorestframework==3.14.0
+

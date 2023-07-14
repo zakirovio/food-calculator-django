@@ -3,14 +3,18 @@ from django.urls import reverse
 
 
 class Categories(models.Model):
-    title = models.CharField(max_length=255, verbose_name='Название категории')
-    slug = models.SlugField(max_length=50, unique=True, db_index=True)
+    title = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=50, unique=True, db_index=True, verbose_name='URL')
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
         return reverse('category', kwargs={'slug': self.slug})
+
+    class Meta:
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
 
 
 class Products(models.Model):
@@ -24,3 +28,7 @@ class Products(models.Model):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name = 'Product'
+        verbose_name_plural = 'Products'
