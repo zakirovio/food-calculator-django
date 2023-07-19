@@ -67,7 +67,7 @@ class ShowCategory(CommonData, ListView):
 
 
 def about(request):
-    ...
+    return render(request=request, template_name='about.html')
 
 
 def show_articles(request):
