@@ -1,8 +1,8 @@
 {% extends 'calculator/base.html' %}
-{% block about %}
-{% load static %}
 
+{% block about %}
 <div class="container">
+    <!--Описание-->
     <h1 class="display-6">Калькулятор пищевой ценности продуктов питания</h1>
     <p class="lead">
         Добро пожаловать на SimpleFoodCalculator. При помощи этого калькулятора можно подсчитать количество калорий выбранного рациона.
@@ -12,64 +12,46 @@
 {% endblock about %}
 
 {% block calculator %}
+<!--Корзина заполняется здесь...-->
+{% if not values %}
 <div class="organizer container">
     <p class="lead">Калькулятор</p>
-    {% if cart_items %}
-        <table class="table table-secondary table-sm container">
+    
+    <table class="table table-secondary table-sm container lead" id="cart_table" hidden>
         <tr class="table table-secondary">
             <td class="table table-secondary">Название</td>
             <td class="table table-secondary">Количество</td>
         </tr>
-        {% for key, value in cart_items.items %}
-            <tr class="table table-light lead">
-                <td class="table table-light">{{value.title}}</td>
-                <td class="table table-light">{{value.count}} гр.</td>
-            </tr>
-        {% endfor %}
-        </table>
-    {% endif %}
+    </table>
 </div>
+<!--main-->
 <div class="calculator container">
     <form action="{% url 'home' %}" method="post">
-    {% csrf_token %}
-        <!-- Панель выбора категории-->
+        {% csrf_token %}
+        <!-- Панель выбора категории | Рендерит Django-->
         <div class="form-floating mb-3">
             <div class="form-row col-4">{{form.categories}}</div>
         </div>
-        <!-- Панель поиска продукта-->
-        <div id="search-panel">
-            <div class="form-floating mb-2">
-                <div class="form-row col-4"><input class="form-control" type="text" id="opt" placeholder="Начните вводить название"></div>
-            </div>
-        </div>
-
+        <!--Панель выбора а продукта | JS-->
         <div class="form-floating mb-3">
             <div class="form-row col-4">
                 <select name="products" id="product-select" class="form-select">
-
+                    <option value="default" selected="">Выберите продукт</option>
                 </select>
             </div>
         </div>
-
+        <!--Панель ввода количества | Django-->
         <div class="form-floating mb-3">
             <div class="form-row col-4">{{form.count}}</div>
         </div>
-        <button class="btn btn-primary" type="submit">Добавить</button>
-    </form>
-    <!--Hidden result field form and button-->
-    <form action="{% url 'home' %}" method="post">
-        {% csrf_token %}
-        {% if not values %}
-        <button class="btn btn-primary" type="submit">Рассчитать</button>
-        {% endif %}
-        <div class="form-floating mb-2">
-                <div class="form-row col-3">{{result.result}}</div>
-        </div>
-    </form>
+        <!--Кнопка добавления в корзину-->
+        <button class="btn btn-primary" id="add_button" type="button">Добавить</button>
+        <!--Кнопка для отправки JSON на сервер... | JS-->
+        <button class="btn btn-primary" id="result_button" type="button">Рассчитать</button>
+    </form>  
 </div>
-<!--Search by option fields script-->
-<script src="{% static 'calculator/js/search_panel.js' %}"></script>
-<script src="{% static 'calculator/js/get_category.js' %}"></script>
+{% endif %}
+
 <!--Result table section-->
 {% if values %}
     <div class="container">
@@ -90,6 +72,5 @@
         </tr>
         </table>
     </div>
-
 {% endif %}
 {% endblock calculator %}

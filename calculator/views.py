@@ -6,6 +6,7 @@ from calculator.utils import *
 from calculator.forms import *
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
+import json
 
 
 def CalculatorHome(request):
@@ -13,40 +14,19 @@ def CalculatorHome(request):
         'menu': menu,
         'title': 'Главная | Калькулятор',
         'categories_list': categories_list,
-        'products': Products.objects.all(),
         'selected': 1
     }
-
-    if request.method == 'POST':
-        form = CalculatorFieldsForm(request.POST)
-        result = ResultForm(request.POST)
-        if form.is_valid():
-            print(form.cleaned_data)
-            # add product to session data
-            if form.cleaned_data.get('products'):
-                # Temp data
-                added_id = form.cleaned_data.get('products').pk
-                added_weight = form.cleaned_data.get('count')
-                added_name = form.cleaned_data.get('products').title
-                data_dict = {'id': added_id, 'title': added_name, 'count': added_weight}
-                request.session[added_id] = data_dict
-                context['form'] = form
-                return redirect('home')
-        if result.is_valid():
-            if result.cleaned_data.get('result'):
-                cart_items = dict(request.session)
-                values = count_cart_data(cart_items)
-                context['values'] = values
-                context['form'] = form
-                request.session.clear()
-                return render(request=request, template_name='calculator/index.html', context=context)
-
+    
     form = CalculatorFieldsForm()
-    result = ResultForm()
     context['form'] = form
-    context['result'] = result
-    cart_items = dict(request.session)
-    context['cart_items'] = cart_items
+    if request.POST:
+        qd = dict(request.POST)
+        js_string = [item for item in qd.keys()][0]
+        products_list = json.loads(js_string)  # нужно распарсить 
+        values = count_cart_data(data=products_list)
+        print(values)
+        context['values'] = values
+ 
     return render(request=request, template_name='calculator/index.html', context=context)
 
 

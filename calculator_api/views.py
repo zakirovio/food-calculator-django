@@ -1,4 +1,5 @@
 from rest_framework import generics
+
 from calculator.models import Categories, Products
 from calculator_api.serializers import CategoriesSerializer, ProductsSerializer
 from calculator_api.pagination import ProductsListPagination
@@ -22,7 +23,7 @@ class ProductsList(generics.ListAPIView):
 
 class ProductsListByCategory(generics.ListAPIView):
     serializer_class = ProductsSerializer
-    pagination_class = ProductsListPagination
+    # pagination_class = ProductsListPagination
 
     def get_queryset(self):
         category = self.kwargs.get('category')

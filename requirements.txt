@@ -6,4 +6,3 @@ openpyxl
 mysqlclient
 sqlalchemy==2.0.18
 djangorestframework==3.14.0
-

@@ -13,9 +13,9 @@ def count_cart_data(data: dict) -> dict:
     fats = 0
     carbs = 0
 
-    for key, value in data.items():
-        product_id = value['id']
-        count = value['count']
+    for item in data:
+        product_id = item['id']
+        count = int(item['count'])
         factor = count / 100
         product = Products.objects.get(id=product_id)
         calories += (product.calories * factor)

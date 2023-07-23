@@ -187,4 +187,3 @@ fabric.properties
 calculator/migrations/
 calculator/**/*.pyc
 food_calculator/**/*pyc
-

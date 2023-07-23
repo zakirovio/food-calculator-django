@@ -1,26 +1,17 @@
 from django import forms
 from calculator.models import *
-
+from calculator.utils import categories_list
 
 class CalculatorFieldsForm(forms.Form):
     categories = forms.ModelChoiceField(
-        queryset=Categories.objects.all(), required=True, empty_label='Выберите категорию', widget=forms.Select(
+        queryset=categories_list, required=True, empty_label='Выберите категорию', widget=forms.Select(
             attrs={
                 'class': 'form-select',
-                'id': 'category-select'
+                'id': 'category-select',
             },
         )
-    )
-
+    )   
     count = forms.IntegerField(required=True,  widget=forms.NumberInput(
-        attrs={'class': 'form-control', 'placeholder': 'Введите количество продукта, гр.'}
+        attrs={'class': 'form-control', 'placeholder': 'Введите количество продукта, гр.', 'id': 'counter'}
     )
         )
-
-
-class ResultForm(forms.Form):
-    # Hidden input to execute calculation
-    result = forms.CharField(max_length=255, required=False, widget=forms.TextInput(
-        attrs={'class': 'form-control', 'type': 'hidden', 'value': 1}
-    )
-                             )
