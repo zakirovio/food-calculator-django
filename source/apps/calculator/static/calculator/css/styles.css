@@ -1,0 +1,11 @@
+.btn {
+    color: black;
+    background-color: #f0f0f0;
+    border: none;
+}
+
+.btn:hover {background-color: 	#808080;}
+
+form {
+    display: inline;
+}

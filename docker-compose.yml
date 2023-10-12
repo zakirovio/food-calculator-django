@@ -1,0 +1,40 @@
+version: "3.5"
+
+volumes:
+  web:
+
+services:
+  db:
+    image: mysql:8.0.34
+    container_name: db
+    env_file:
+      - source/config/.env
+    ports:
+      - "3306:3306"
+
+    restart: always
+    networks:
+      - appnet
+  web:
+    image: food_calculator
+    build:
+      context: ./
+    command: >
+      sh -c "cd source &&
+             poetry run python manage.py migrate --noinput &&
+             poetry run python manage.py runserver 0.0.0.0:8000"
+    container_name: web
+    volumes:
+       - web:/usr/food_calculator/
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    networks:
+      - appnet
+    depends_on:
+      - db
+
+networks:
+  appnet:
+    driver: bridge
+    name: appnet

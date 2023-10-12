@@ -1,0 +1,11 @@
+# Python default virtual environment directories
+.venv/
+venv/
+virtualenv/
+
+# PyCharm
+.idea/
+__pycache__/
+
+# git
+.git/

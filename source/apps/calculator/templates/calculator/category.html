@@ -1,0 +1,27 @@
+{% extends 'calculator/base.html' %}
+
+{% block calculator %}
+<div class="category container">
+    <p class="lead">В таблице ниже представлена калорийность и пищевая ценность в 100 граммах продукта: <strong>{{title}}</strong></p>
+<table class="table table-dark container">
+    <tr class="table table-secondary lead">
+        <td class="table table-secondary">Название</td>
+        <td class="table table-secondary">Калорийность</td>
+        <td class="table table-secondary">Белки</td>
+        <td class="table table-secondary">Жиры</td>
+        <td class="table table-secondary">Углеводы</td>
+    </tr>
+{% for item in products %}
+    <tr class="table table-light lead">
+        <td class="table table-light">{{item.title}}</td>
+        <td class="table table-light">{{item.calories}} кКал.</td>
+        <td class="table table-light">{{item.protein}} гр.</td>
+        <td class="table table-light">{{item.fats}} гр.</td>
+        <td class="table table-light">{{item.carbs}} гр.</td>
+    </tr>
+{% endfor %}
+</table>
+
+</div>
+{% endblock calculator %}
+

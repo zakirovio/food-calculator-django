@@ -1,0 +1,76 @@
+{% extends 'calculator/base.html' %}
+
+{% block about %}
+<div class="container">
+    <!--Описание-->
+    <h1 class="display-6">Калькулятор пищевой ценности продуктов питания</h1>
+    <p class="lead">
+        Добро пожаловать на SimpleFoodCalculator. При помощи этого калькулятора можно подсчитать количество калорий выбранного рациона.
+        База данных содержит более 7 тысяч продуктов и готовых блюд. Также можно отдельно изучить таблицы по категориям.
+    </p>
+</div>
+{% endblock about %}
+
+{% block calculator %}
+<!--Корзина заполняется здесь...-->
+{% if not values %}
+<div class="organizer container">
+    <p class="lead">Калькулятор</p>
+    
+    <table class="table table-secondary table-sm container lead" id="cart_table" hidden>
+        <tr class="table table-secondary">
+            <td class="table table-secondary">Название</td>
+            <td class="table table-secondary">Количество</td>
+        </tr>
+    </table>
+</div>
+<!--main-->
+<div class="calculator container">
+    <form action="{% url 'home' %}" onkeydown="return event.key != 'Enter';" method="post">
+        {% csrf_token %}
+        <!-- Панель выбора категории | Рендерит Django-->
+        <div class="form-floating mb-3">
+            <div class="form-row col-4">{{form.categories}}</div>
+        </div>
+        <!--Панель выбора а продукта | JS-->
+        <div class="form-floating mb-3">
+            <div class="form-row col-4">
+                <select name="products" id="product-select" class="form-select">
+                    <option value="default" selected="">Выберите продукт</option>
+                </select>
+            </div>
+        </div>
+        <!--Панель ввода количества | Django-->
+        <div class="form-floating mb-3">
+            <div class="form-row col-4">{{form.count}}</div>
+        </div>
+        <!--Кнопка добавления в корзину-->
+        <button class="btn btn-primary" id="add_button" type="button">Добавить</button>
+        <!--Кнопка для отправки JSON на сервер... | JS-->
+        <button class="btn btn-primary" id="result_button" type="button">Рассчитать</button>
+    </form>  
+</div>
+{% endif %}
+
+<!--Result table section-->
+{% if values %}
+    <div class="container">
+         <p class="lead">
+        Пищевая ценность выбранных продуктов составляет:</p>
+        <table class="table table-secondary table-sm container">
+        <tr class="table table-secondary lead">
+            <td class="table table-secondary ">Калории</td>
+            <td class="table table-secondary ">Белки</td>
+            <td class="table table-secondary ">Жиры</td>
+            <td class="table table-secondary ">Углеводы</td>
+        </tr>
+        <tr class="table table-light lead">
+            <td class="table table-light">{{values.calories}} кКал.</td>
+            <td class="table table-light">{{values.protein}} гр.</td>
+            <td class="table table-light">{{values.fats}} гр.</td>
+            <td class="table table-light">{{values.carbs}} гр.</td>
+        </tr>
+        </table>
+    </div>
+{% endif %}
+{% endblock calculator %}
