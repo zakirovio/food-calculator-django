@@ -1,7 +1,6 @@
 from rest_framework import generics
 from django.shortcuts import render
 from django.views import generic
-from django.http.request import HttpRequest
 from apps.calculator.utils import CommonData, count_cart_data
 from apps.calculator import forms
 import json
@@ -14,7 +13,6 @@ from api.calculator import pagination
 class CalculatorHome(generic.FormView, CommonData):
     template_name = "calculator/index.html"
     form_class = forms.CalculatorFieldsForm
-    request = HttpRequest()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -44,7 +42,7 @@ class ShowCategory(CommonData, generic.ListView):
         return dict(list(context.items()) + list(extra_context.items()))
 
     def get_queryset(self):
-        return models.Products.objects.filter(category__slug=self.kwargs['slug'])
+        return models.Products.objects.select_related("category").filter(category__slug=self.kwargs['slug'])
 
 
 def about(request):
