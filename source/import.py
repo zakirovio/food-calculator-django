@@ -12,7 +12,7 @@ def import_to_mysql(url, excel_table_path: str, db_table: str):
 
 
 if __name__ == '__main__':
-    is_import = False
+    is_import = True
     if is_import:
         # Import categories
         import_to_mysql(url=settings.MYSQL_URL, excel_table_path=f"{settings.BASE_DIR}/data/categories.xlsx",
