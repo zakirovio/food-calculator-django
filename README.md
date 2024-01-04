@@ -9,22 +9,31 @@
 
  ## Docker
  - Нужно клонировать репозиторий:
-   - ```$ git clone https://github.com/iamkhaidarzakirov/food_calculator.git```
- - Настроить виртуальное окружение:
-   - ```$ poetry install && poetry shell```
+   - https: ```git clone https://github.com/iamxaidar/food-calculator-django.git```
+   - ssh: ```git@github.com:iamxaidar/food-calculator-django.git```
  - Структура переменных окружения представлена в **env.template**; 
     - Так как проект не боевой, все необходимые значения уже указаны в шаблоне;
 - Нужно создать файлы с переменными окружения:
     - linux: ```$ make dotenv```
+    - win: ```>> cd source/config && copy .env.template .env```
 - Запустить сборку и запуск контейнеров:
-  - ```$ make up```
+  - linux: ```$ make up```
+  - win: ```docker compose up```
 - После успешного запуска сделать импорт данных из таблицы в базу:
-  - ```$ make import```
+  - linux: ```$ make import```
+  - win: ```docker exec -it web poetry run python source/import.py```
+
+## Другие команды управления контейнерами
 - Остановить и удалить контейнеры:
-  - ```$ make down```
+  - linux: ```$ make down```
+  - win: ```docker compose down```
 - Остановить контейнеры:
-  - ```$ make stop```
+  - linux: ```$ make stop```
+  - win: ```docker stop web db```
 - Запустить контейнеры после установки:
-  - ```$ make start```
+  - linux: ```$ make start```
+  - win: ```docker start db web```
+
+## Адрес приложения
 - Приложение будет доступно по адресу:
   - ```https://127.0.0.1:8000```
