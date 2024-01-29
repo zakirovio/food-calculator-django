@@ -16,6 +16,7 @@
 - Нужно создать файлы с переменными окружения:
     - linux: ```$ make dotenv```
     - win: ```>> cd source/config && copy .env.template .env```
+       - Вернуться к корню проекта: ```cd ../..```
 - Запустить сборку и запуск контейнеров:
   - linux: ```$ make up```
   - win: ```docker compose up```
