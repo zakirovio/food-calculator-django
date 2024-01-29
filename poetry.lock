@@ -148,7 +148,7 @@ test = ["objgraph", "psutil"]
 
 [[package]]
 name = "mysqlclient"
-version = "2.2.1"
+version = "2.1.0"
 description = "Python interface to MySQL"
 optional = false
 python-versions = ">=3.8"
